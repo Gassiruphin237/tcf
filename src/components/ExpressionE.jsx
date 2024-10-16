@@ -105,7 +105,7 @@ function ExpressionE() {
                     onCopy={handleCopy}
                     value={tasks.task1}
                 />
-                <p>Nombre de mots : <Badge badgeContent={wordCounts.wordCount1} color="primary"></Badge></p>
+                <p>Nombre de mots : &nbsp; <Badge badgeContent={wordCounts.wordCount1} max={999} color="primary"></Badge></p>
 
                 {/* Tâche 2 */}
                 <TextField
@@ -122,7 +122,7 @@ function ExpressionE() {
                     value={tasks.task2}
                     style={{ marginTop: '20px' }}
                 />
-                <p>Nombre de mots : <Badge badgeContent={wordCounts.wordCount2} color="primary"></Badge></p>
+                <p>Nombre de mots : &nbsp;  <Badge badgeContent={wordCounts.wordCount2} max={999} color="primary"></Badge></p>
 
                 {/* Tâche 3 */}
                 <TextField
@@ -139,7 +139,7 @@ function ExpressionE() {
                     value={tasks.task3}
                     style={{ marginTop: '20px' }}
                 />
-                <p>Nombre de mots : <Badge badgeContent={wordCounts.wordCount3} color="primary"></Badge></p>
+                <p>Nombre de mots : &nbsp;  <Badge badgeContent={wordCounts.wordCount3}  max={999} color="primary"></Badge></p>
 
                 <Button variant="contained" endIcon={<CloudUploadIcon  />} style={{ marginTop: '20px' }} onClick={saveAsPDF} disabled={disabled}>
                     Enregistrer en PDF
