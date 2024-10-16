@@ -1,6 +1,6 @@
 import { Badge, Button, Chip, TextField } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import CloudUploadIcon  from '@mui/icons-material/CloudUpload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import jsPDF from 'jspdf'; // Bibliothèque pour générer le PDF
 import '../css/ExpressionE.css';
 import img from '../assets/tcf.jpg'
@@ -66,29 +66,64 @@ function ExpressionE() {
         return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
 
-    // Enregistre le contenu sous forme de PDF
-    const saveAsPDF = () => {
-        const doc = new jsPDF();
-        doc.setFontSize(12);
+// Enregistre le contenu sous forme de PDF
+const saveAsPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(12);
 
-        doc.text('Tâche 1:', 10, 10);
-        doc.text(tasks.task1 || 'Aucun résultat saisi', 10, 20);
+    // Tâche 1
+    doc.setFont('Helvetica', 'bold');
+    doc.text('Tâche 1:', 10, 10);
+    doc.setFont('Helvetica', 'normal');
+    const task1Text = tasks.task1 || 'Aucun résultat saisi';
+    const task1Lines = doc.splitTextToSize(task1Text, 190);
+    doc.text(task1Lines, 10, 20);
+    
+    // Nombre de mots pour la tâche 1
+    const wordCount1 = wordCounts.wordCount1 > 0 ? wordCounts.wordCount1 : 0;
+    doc.text(`Nombre de mots : ${wordCount1}`, 10, 20 + task1Lines.length * 10 + 10); // 10 est un espacement
 
-        doc.text('Tâche 2:', 10, 40);
-        doc.text(tasks.task2 || 'Aucun résultat saisi', 10, 50);
+    doc.addPage(); // Ajoute une nouvelle page pour la Tâche 2
 
-        doc.text('Tâche 3:', 10, 70);
-        doc.text(tasks.task3 || 'Aucun résultat saisi', 10, 80);
+    // Tâche 2
+    doc.setFont('Helvetica', 'bold');
+    doc.text('Tâche 2:', 10, 10);
+    doc.setFont('Helvetica', 'normal');
+    const task2Text = tasks.task2 || 'Aucun résultat saisi';
+    const task2Lines = doc.splitTextToSize(task2Text, 190);
+    doc.text(task2Lines, 10, 20);
 
-        doc.save('taches.pdf'); // Télécharge le fichier PDF
-    };
+    // Nombre de mots pour la tâche 2
+    const wordCount2 = wordCounts.wordCount2 > 0 ? wordCounts.wordCount2 : 0;
+    doc.text(`Nombre de mots : ${wordCount2}`, 10, 20 + task2Lines.length * 10 + 10); // 10 est un espacement
+
+    doc.addPage(); // Ajoute une nouvelle page pour la Tâche 3
+
+    // Tâche 3
+    doc.setFont('Helvetica', 'bold');
+    doc.text('Tâche 3:', 10, 10);
+    doc.setFont('Helvetica', 'normal');
+    const task3Text = tasks.task3 || 'Aucun résultat saisi';
+    const task3Lines = doc.splitTextToSize(task3Text, 190);
+    doc.text(task3Lines, 10, 20);
+
+    // Nombre de mots pour la tâche 3
+    const wordCount3 = wordCounts.wordCount3 > 0 ? wordCounts.wordCount3 : 0;
+    doc.text(`Nombre de mots : ${wordCount3}`, 10, 20 + task3Lines.length * 10 + 10); // 10 est un espacement
+
+    doc.save('taches.pdf'); // Télécharge le fichier PDF
+};
+
+
+
+
 
     return (
         <div className='container'>
             <form className='form' style={{ margin: '20px' }}>
-            <center> <img alt='img' src={img} style={{ width: '300px',borderRadius:20}}/></center>
+                <center> <img alt='img' src={img} style={{ width: '300px', borderRadius: 20 }} /></center>
                 <p style={{ textAlign: 'center' }}> <h3>Simulateur Examen Expression Ecrite TCF Canada</h3></p>
-                <p>Temps restant : <Chip label={formatTime(timeLeft)} color="error" ></Chip> </p> 
+                <p>Temps restant : <Chip label={formatTime(timeLeft)} color="error" ></Chip> </p>
 
                 {/* Tâche 1 */}
                 <TextField
@@ -139,13 +174,13 @@ function ExpressionE() {
                     value={tasks.task3}
                     style={{ marginTop: '20px' }}
                 />
-                <p>Nombre de mots : &nbsp;  <Badge badgeContent={wordCounts.wordCount3}  max={999} color="primary"></Badge></p>
+                <p>Nombre de mots : &nbsp;  <Badge badgeContent={wordCounts.wordCount3} max={999} color="primary"></Badge></p>
 
-                <Button variant="contained" endIcon={<CloudUploadIcon  />} style={{ marginTop: '20px' }} onClick={saveAsPDF} disabled={disabled}>
+                <Button variant="contained" endIcon={<CloudUploadIcon />} style={{ marginTop: '20px' }} onClick={saveAsPDF} disabled={disabled}>
                     Enregistrer en PDF
                 </Button>
             </form>
-        </div> 
+        </div>
     );
 }
 
